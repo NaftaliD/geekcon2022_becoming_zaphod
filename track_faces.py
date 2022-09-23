@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Rectangle
 
-from attributes import load_attribute_model, find_attributes_of_face
+# from attributes import load_attribute_model, find_attributes_of_face
 
 
 # from facenet_pytorch import MTCNN
@@ -80,7 +80,7 @@ def main():
     # model = MTCNN(keep_all=True, device=device)
     model = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     # model = None
-    attr_model = load_attribute_model("cpu")
+    # attr_model = load_attribute_model("cpu")
 
     if not cam.isOpened():
         print("camera was not opened")
@@ -115,10 +115,10 @@ def main():
         print(detection_as_ascii(10, frame.shape, face) +
               f'{frame_id:04d} {datetime.now()} location: {relative_x_center:.02f}, fps: {fps}')
 
-        if not np.all(face == 0) and frame_id % 5 == 0:
-            face_crop = crop_face_from_frame(face, frame)
-            result, attributes_dict = find_attributes_of_face(face_crop, attr_model)
-            print([k for k,v in attributes_dict.items() if v])
+        # if not np.all(face == 0) and frame_id % 5 == 0:
+        #     face_crop = crop_face_from_frame(face, frame)
+        #     result, attributes_dict = find_attributes_of_face(face_crop, attr_model)
+        #     print([k for k,v in attributes_dict.items() if v])
 
         vis = False
         if vis:
