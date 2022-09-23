@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Rectangle
 
-from face_detection.attributes import load_attribute_model, find_attributes_of_face
+from geekcon2022_becoming_zaphod.face_detection.attributes import load_attribute_model, find_attributes_of_face
 
 
 # from facenet_pytorch import MTCNN
@@ -87,6 +87,7 @@ def main():
         return
 
     frame_id = 0
+    attributes_dict = {}
     while True:
         # time.sleep(0.1)
         start = datetime.now()
@@ -114,10 +115,10 @@ def main():
         print(detection_as_ascii(10, frame.shape, face) +
               f'{frame_id:04d} {datetime.now()} location: {relative_x_center:.02f}, fps: {fps}')
 
-        if not np.all(face == 0):
+        if not np.all(face == 0) and frame_id % 5 == 0:
             face_crop = crop_face_from_frame(face, frame)
-            result, results_dict = find_attributes_of_face(face_crop, attr_model)
-            print([k for k,v in results_dict.items() if v])
+            result, attributes_dict = find_attributes_of_face(face_crop, attr_model)
+            print([k for k,v in attributes_dict.items() if v])
 
         vis = False
         if vis:
