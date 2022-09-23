@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Rectangle
 
-from face_detection.attributes import load_attribute_model, find_attributes_of_face
+from attributes import load_attribute_model, find_attributes_of_face
 
 
 # from facenet_pytorch import MTCNN

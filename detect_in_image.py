@@ -1,10 +1,8 @@
 
 import cv2
-import numpy as np
-from facenet_pytorch import MTCNN
 
 from attributes import FACIAL_ATTRIBUTES, find_attributes_of_face, load_attribute_model
-from face_detection.track_faces import detect_faces_in_frame, detection_as_ascii, \
+from track_faces import detect_faces_in_frame, detection_as_ascii, \
     crop_face_from_frame
 
 
