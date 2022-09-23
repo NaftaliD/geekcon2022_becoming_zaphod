@@ -14,6 +14,7 @@ class EyebrowController:
         with open(CONFIG_PATH, 'r') as fid_:
             config = json.load(fid_)
 
+        print("config", config)
         if is_random_mode is None:
             self.is_random_mode =  config["is_random_mode"]
         else:
@@ -51,6 +52,7 @@ class EyebrowController:
         self.is_up = should_be_up
 
         if (datetime.now() - self.last_update_time).microseconds * 1e6 < self.update_interval_sec:
+            print("waiting for at least 1 sec")
             return
 
         if self.is_up:
@@ -59,12 +61,16 @@ class EyebrowController:
             self.set_eyebrow_down()
 
     def set_eyebrow_up(self):
+        print("set up")
         if self.servo.value != -0.5:
             self.servo.value = -0.5
+            print("moved up")
 
     def set_eyebrow_down(self):
+        print("set down")
         if self.servo.value != -1:
             self.servo.value = -1
+            print("moved down")
 
 
 if __name__ == '__main__':
