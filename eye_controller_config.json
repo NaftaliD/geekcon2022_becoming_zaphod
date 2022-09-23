@@ -2,8 +2,8 @@
     "angles_range": 100,
     "movement_range": 135,
     "servo_every_n_frames": 5,
-    "black_to_red_prob": 0.2,
-    "red_to_black_prob": 0.8,
+    "black_to_red_prob": 0.02,
+    "red_to_black_prob": 0.08,
     "mark_pupil_mode": null,
     "servo_pin": "GPIO04"
 }
