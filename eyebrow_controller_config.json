@@ -1,7 +1,7 @@
 {
     "is_random_mode": true,
-    "up_to_down_prob": 0.2,
-    "down_to_up_prob": 0.05,
+    "up_to_down_prob": 0.5,
+    "down_to_up_prob": 0.5,
     "servo_pin": "GPIO02",
     "update_interval_sec": 1
 }
