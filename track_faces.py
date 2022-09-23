@@ -5,17 +5,17 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Rectangle
 
+from eye_controller import EyeController
+
+
 # from attributes import load_attribute_model, find_attributes_of_face
-
-
-# from facenet_pytorch import MTCNN
 
 
 def detection_as_ascii(new_h, frame_shape, face):
     scale = new_h / frame_shape[0]
     new_w = int(round(float(frame_shape[1]) * scale))
     face_int = (face * scale).astype(int)
-    face_int = np.minimum(face_int, [new_w-1, new_h-1, new_w-1, new_h-1])
+    face_int = np.minimum(face_int, [new_w - 1, new_h - 1, new_w - 1, new_h - 1])
     face_int = np.maximum(face_int, 0)
     ##
     asc = [["+"] + ["-"] * (new_w - 2) + ["+"]]
@@ -37,6 +37,7 @@ def detection_as_ascii(new_h, frame_shape, face):
             asc[face_int[3], x] = '-'
     res_str = "".join(["".join(row) + "\n" for row in asc])
     return res_str
+
 
 def crop_face_from_frame(face, frame):
     w, h = face[2] - face[0], face[3] - face[1]
@@ -70,7 +71,7 @@ def detect_faces_in_frame(frame, model):
     biggest_loc = np.argmax(max_dim)
     face = boxes[biggest_loc, :]
     x_center = (face[2] + face[0]) / 2
-    relative_x_center = x_center / frame.shape[1] - 0.5
+    relative_x_center = x_center / frame.shape[1] - 0.5  # range of +/- 0.5
     return face, relative_x_center, frame
 
 
@@ -86,6 +87,7 @@ def main():
         print("camera was not opened")
         return
 
+    eye_controller = EyeController()
     frame_id = 0
     attributes_dict = {}
     while True:
@@ -114,6 +116,8 @@ def main():
         fps = np.floor(1e6 / (elapsed_capture + detect_elpsed + save_elapsed).microseconds)
         print(detection_as_ascii(10, frame.shape, face) +
               f'{frame_id:04d} {datetime.now()} location: {relative_x_center:.02f}, fps: {fps}')
+
+        eye_controller.update_location(relative_x_center)
 
         # if not np.all(face == 0) and frame_id % 5 == 0:
         #     face_crop = crop_face_from_frame(face, frame)
