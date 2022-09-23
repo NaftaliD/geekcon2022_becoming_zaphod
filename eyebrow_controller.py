@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from os import path as osp
 import json
@@ -69,10 +70,15 @@ class EyebrowController:
 if __name__ == '__main__':
     config_ = {
         "is_random_mode": True,
-        "up_to_down_prob": 0.8,
-        "down_to_up_prob": 0.2,
+        "up_to_down_prob": 0.2,
+        "down_to_up_prob": 0.05,
         "servo_pin": "GPIO02",
         "update_interval_sec": 1
     }
     with open(CONFIG_PATH, 'w') as fid:
         json.dump(config_, fid, indent=4)
+
+    controller = EyebrowController(is_random_mode=True)
+    while True:
+        controller.update_location(None)
+        time.sleep(0.5)
