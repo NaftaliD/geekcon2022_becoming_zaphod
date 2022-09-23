@@ -4,7 +4,6 @@ import json
 import numpy as np
 from gpiozero import Servo, BadPinFactory
 
-SERVO_PIN = "GPIO03"
 
 CONFIG_PATH = osp.join(osp.dirname(__file__), "eye_controller_config.json")
 
@@ -32,7 +31,7 @@ class EyeController:
         self.frame_id = 0
 
         try:
-            self.servo = Servo(SERVO_PIN, max_pulse_width=0.004)
+            self.servo = Servo(config["servo_pin"], max_pulse_width=0.004)
             if self.is_eye_black:
                 # self.servo.angle = self.black_pupil_loc
                 self.servo.value = self.black_pupil_loc
@@ -77,6 +76,7 @@ if __name__ == '__main__':
         "black_to_red_prob": 0.2,
         "red_to_black_prob": 0.8,
         "mark_pupil_mode": None,
+        "servo_pin": "GPIO03",
     }
     with open(CONFIG_PATH, 'w') as fid:
         json.dump(config_, fid, indent=4)
