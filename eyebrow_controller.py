@@ -59,11 +59,11 @@ class EyebrowController:
             self.set_eyebrow_down()
 
     def set_eyebrow_up(self):
-        if self.servo.get_value != 0:
+        if self.servo.value != 0:
             self.servo.value = 0
 
     def set_eyebrow_down(self):
-        if self.servo.get_value != -1:
+        if self.servo.value != -1:
             self.servo.value = -1
 
 
