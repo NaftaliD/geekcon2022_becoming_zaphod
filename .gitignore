@@ -1,0 +1,14 @@
+*.pyc
+.serverless
+.venv/
+.vs/
+.vscode/
+__pycache__/
+node_modules/
+.serverless-wsgi
+serverless_wsgi.py
+wsgi_handler.py
+htmlcov/
+.DS_Store
+.coverage
+.mypy_cache/
