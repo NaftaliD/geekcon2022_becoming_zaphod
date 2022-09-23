@@ -27,7 +27,7 @@ class EyebrowController:
 
         self.last_update_time = datetime.now()
         try:
-            self.servo = Servo(config["servo_pin"], max_pulse_width=0.004)
+            self.servo = Servo(config["servo_pin"], min_pulse_width=0.001, max_pulse_width=0.004, frame_width=0.02)
             if self.is_up:
                 self.set_eyebrow_up()
             else:
@@ -59,8 +59,8 @@ class EyebrowController:
             self.set_eyebrow_down()
 
     def set_eyebrow_up(self):
-        if self.servo.value != 0:
-            self.servo.value = 0
+        if self.servo.value != -0.5:
+            self.servo.value = -0.5
 
     def set_eyebrow_down(self):
         if self.servo.value != -1:
@@ -68,15 +68,15 @@ class EyebrowController:
 
 
 if __name__ == '__main__':
-    config_ = {
-        "is_random_mode": True,
-        "up_to_down_prob": 0.2,
-        "down_to_up_prob": 0.05,
-        "servo_pin": "GPIO02",
-        "update_interval_sec": 1
-    }
-    with open(CONFIG_PATH, 'w') as fid:
-        json.dump(config_, fid, indent=4)
+    # config_ = {
+    #     "is_random_mode": True,
+    #     "up_to_down_prob": 0.2,
+    #     "down_to_up_prob": 0.05,
+    #     "servo_pin": "GPIO02",
+    #     "update_interval_sec": 1
+    # }
+    # with open(CONFIG_PATH, 'w') as fid:
+    #     json.dump(config_, fid, indent=4)
 
     controller = EyebrowController(is_random_mode=True)
     while True:
