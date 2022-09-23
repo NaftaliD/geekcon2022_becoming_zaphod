@@ -44,12 +44,12 @@ class EyebrowController:
             if self.is_up and np.random.random() <= self.up_to_down_prob:
                 self.is_up = False
                 print("moving to down eye")
+            else:
+                if np.random.random() <= self.down_to_up_prob:
+                    self.is_up = True
+                    print("moving to up eye")
         else:
-            if np.random.random() <= self.down_to_up_prob:
-                self.is_up = True
-                print("moving to up eye")
-
-        self.is_up = should_be_up
+            self.is_up = should_be_up
 
         if (datetime.now() - self.last_update_time).microseconds * 1e6 < self.update_interval_sec:
             print("waiting for at least 1 sec")
