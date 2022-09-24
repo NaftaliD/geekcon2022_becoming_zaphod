@@ -55,7 +55,7 @@ def play_text(text: str):
     p = vlc.MediaPlayer(output)
     p.play()
     start = time.time()
-    while time.time() - start < 3:
+    while time.time() - start < 1.5:
         mouth_servo.value = -1
         time.sleep(0.2)
         mouth_servo.value = 0
