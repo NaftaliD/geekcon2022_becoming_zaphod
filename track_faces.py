@@ -113,9 +113,9 @@ def main():
         if face is None:
             face = np.zeros((4, 1))
 
-        fps = np.floor(1e6 / (elapsed_capture + detect_elpsed + save_elapsed).microseconds)
-        print(detection_as_ascii(10, frame.shape, face) +
-              f'{frame_id:04d} {datetime.now()} location: {relative_x_center:.02f}, fps: {fps}')
+        # fps = np.floor(1e6 / (elapsed_capture + detect_elpsed + save_elapsed).microseconds)
+        # print(detection_as_ascii(10, frame.shape, face) +
+        #       f'{frame_id:04d} {datetime.now()} location: {relative_x_center:.02f}, fps: {fps}')
 
         eye_controller.update_location(relative_x_center)
 
