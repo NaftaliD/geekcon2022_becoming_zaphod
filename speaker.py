@@ -103,7 +103,7 @@ if __name__ == '__main__':
     play_text("Hi, I'm Zaphod, and fuck you too")
     n_sentances = len(SENTANCES)
     while True:
-        time.sleep(5 + np.random.random()*5)
+        time.sleep(4)
         phrase = SENTANCES[int(np.random.random() * n_sentances)]
         print(phrase)
         play_text(phrase)
