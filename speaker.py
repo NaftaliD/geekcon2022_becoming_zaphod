@@ -10,7 +10,10 @@ from tempfile import gettempdir
 
 import vlc
 
+from gpiozero import Servo
+
 def play_text(text: str):
+
     # Create a client using the credentials and region defined in the [adminuser]
     # section of the AWS credentials file (~/.aws/credentials).
     # session = Session(profile_name="adminuser")
@@ -46,10 +49,17 @@ def play_text(text: str):
         # The response didn't contain audio data, exit gracefully
         raise Exception("no audio data")
 
+    mouth_servo = Servo('GPIO03', min_pulse_width=0.001, max_pulse_width=0.004, frame_width=0.02)
+
     print(output)
     p = vlc.MediaPlayer(output)
     p.play()
-    time.sleep(2)
+    start = time.time()
+    while time.time() - start < 3:
+        mouth_servo.value = -1
+        time.sleep(0.2)
+        mouth_servo.value = 0
+        time.sleep(0.2)
     p.stop()
     p.release()
 
