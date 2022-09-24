@@ -12,3 +12,4 @@ htmlcov/
 .DS_Store
 .coverage
 .mypy_cache/
+assemblyai_apikey.txt

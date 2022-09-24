@@ -24,20 +24,20 @@ class AudioRecorder():
     def __init__(self, filename):
 
         self.open = True
-        self.rate = 48000//4
+        self.rate = 48000
         self.frames_per_buffer = 1024
         self.channels = 1
         self.format = pyaudio.paInt16
         self.audio_filename = filename
         self.audio = pyaudio.PyAudio()
-        print("Channels = "+str(self.audio.get_device_info_by_index(6).get('channels')))
+        print("Channels = "+str(self.audio.get_device_info_by_index(0).get('channels')))
         self.stream = self.audio.open(format=self.format,
                                       channels=self.channels,
                                       rate=self.rate,
                                       input=True,
-                                      input_device_index=6,
+                                      input_device_index=0,
                                       frames_per_buffer = self.frames_per_buffer)
-        self.buffer_secs = 2
+        self.buffer_secs = 4
         self.audio_frames = buffer.RingBuffer(int((self.rate/ \
                                                    self.frames_per_buffer)* \
                                                    self.buffer_secs))
@@ -49,19 +49,18 @@ class AudioRecorder():
             data = self.stream.read(self.frames_per_buffer, exception_on_overflow = False) 
             self.audio_frames.append(data)
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN): 
                     #send data to cloud
                     self.stream.stop_stream()
                     print("sending recording to cloud")
                     self.send_to_cloud()
                     #send text to speech
-                    text_dict = transcribe.sound_to_text(self.audio_filename)
-                    print(text_dict)
-                    comment = (' '.join(text_dict.get("comment", ''))).strip()
-                    print(comment)
-                    if comment:
+                    text = transcribe.sound_to_text_assemblyai(self.audio_filename)
+                    #comment = (' '.join(text_dict.get("comment", ''))).strip()
+                    print(text)
+                    if text:
                         z = Zaphod()
-                        response = z.respond(comment)
+                        response = z.respond(text)
                         print(response)
                         speaker.play_text(response)
                     print("back to record")

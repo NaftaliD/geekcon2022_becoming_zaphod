@@ -17,6 +17,8 @@ import json, datetime
 from pathlib import Path
 #Amazon files.
 import logging
+
+import requests
 from botocore.exceptions import ClientError
 
 # ******** if you want to Change the Directory to your local  *******************
@@ -125,7 +127,42 @@ def write(file, **kwargs):
 
 # In[27]:
 
-def sound_to_text(filename):
+def sound_to_text_assemblyai(filename):
+    filename = "temp_audio.wav"
+    #uploading file in S3 bucket
+    upload_file(filename)
+    s3_floc='https://s3.amazonaws.com/geekcon2022-zaphod/{}'.format(filename)
+    import requests
+    endpoint = "https://api.assemblyai.com/v2/transcript"
+    json = {
+        # "audio_url": "https://bit.ly/3yxKEIY"
+        "audio_url": s3_floc,
+    }
+    headers = {
+        "authorization": open('assemblyai_apikey.txt','r').read().strip(),
+        "content-type": "application/json"
+    }
+    response = requests.post(endpoint, json=json, headers=headers)
+    print(response.json())
+    transc_id = response.json()['id']
+
+    while True:
+        endpoint = f"https://api.assemblyai.com/v2/transcript/{transc_id}"
+        headers = {
+            "authorization": open('assemblyai_apikey.txt','r').read().strip(),
+        }
+        response = requests.get(endpoint, headers=headers)
+        j = response.json()
+        if j['status'] == 'processing':
+            time.sleep(0.1)
+            continue
+        print(response.json())
+
+        return response.json()['text']
+
+
+
+def sound_to_text_aws(filename):
     filename = "temp_audio.wav"
     #uploading file in S3 bucket
     upload_file(filename)
