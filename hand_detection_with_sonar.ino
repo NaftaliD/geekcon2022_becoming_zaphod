@@ -11,21 +11,26 @@ void setup() {
   pinMode(echo, INPUT);
   Serial.begin(9600);
   servo.attach(11);
+  servo.write(0);
 }
 
+int is_locked = 0;
+unsigned long lock_start = 0;
+
 void loop() {
-  if (calc_dis() < dt)
-  {
+  Serial.println(millis() - lock_start);
+  if (calc_dis() < dt) {
+    is_locked = 1;
     servo.write(180);
+    lock_start = millis();
   }
-  else
-  {
+  else if (is_locked && (millis() - lock_start > 1000))  {
+    is_locked = 0;
     servo.write(0);
   }
 }
 
-int calc_dis()
-{
+int calc_dis() {
   int duration,distance;
   digitalWrite(trig, HIGH);
   delay(dt);
