@@ -12,6 +12,7 @@ import numpy as np
 import audioread
 import wave
 import io
+import time
 import json, datetime
 from pathlib import Path
 #Amazon files.
@@ -37,8 +38,10 @@ def upload_file(file_name, object_name=None):
 
     # Upload the file
     s3_client = boto3.client('s3')
+    start = time.time()
     try:
         response = s3_client.upload_file(file_name, bucket, object_name)
+        print(time.time() - start)
     except ClientError as e:
         logging.error(e)
         return False
