@@ -94,7 +94,8 @@ SENTANCES = [ "Please tell me more.",
         "I dont like to talk about myself. But I am the best",
         "Dont you, forget about me",
         "There's a starman waiting in the sky, he'd like to come and meet us but he thinks he'd blow our minds"
-        "how... you doing?"
+        "how... you doing?",
+        "I could ask you for more, but I don't really care",
         "Every place is the center of the universe, scientifically proven",
         ]
 
