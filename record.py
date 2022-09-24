@@ -6,10 +6,12 @@ import wave
 import time
 import vlc
 import buffer
+import transcribe
 import threading
 import subprocess
 import pygame
-
+import speaker
+from zaphod import Zaphod
 
 from pygame.locals import(
     KEYDOWN,
@@ -22,7 +24,7 @@ class AudioRecorder():
     def __init__(self, filename):
 
         self.open = True
-        self.rate = 48000
+        self.rate = 48000//4
         self.frames_per_buffer = 1024
         self.channels = 1
         self.format = pyaudio.paInt16
@@ -35,7 +37,7 @@ class AudioRecorder():
                                       input=True,
                                       input_device_index=6,
                                       frames_per_buffer = self.frames_per_buffer)
-        self.buffer_secs = 4
+        self.buffer_secs = 2
         self.audio_frames = buffer.RingBuffer(int((self.rate/ \
                                                    self.frames_per_buffer)* \
                                                    self.buffer_secs))
@@ -53,7 +55,15 @@ class AudioRecorder():
                     print("sending recording to cloud")
                     self.send_to_cloud()
                     #send text to speech
-
+                    text_dict = transcribe.sound_to_text(self.audio_filename)
+                    print(text_dict)
+                    comment = (' '.join(text_dict.get("comment", ''))).strip()
+                    print(comment)
+                    if comment:
+                        z = Zaphod()
+                        response = z.respond(comment)
+                        print(response)
+                        speaker.play_text(response)
                     print("back to record")
                     self.stream.start_stream()
                 elif event.type == pygame.KEYDOWN:
@@ -90,8 +100,3 @@ if __name__ == '__main__':
     audio = AudioRecorder(filename)
     audio.record()
     print("done recording")
-    p = vlc.MediaPlayer(filename)
-    p.play()
-    time.sleep(10)
-    p.stop()
-    p.release()

@@ -4,20 +4,14 @@
 # In[17]:
 
 
-from __future__ import print_function
 import time
 import boto3
-import pandas as pd
 import os
 import urllib.request
 import numpy as np
 import audioread
-import wavio
-from scipy.io import wavfile
-from playsound import playsound
 import wave
 import io
-import requests
 import json, datetime
 from pathlib import Path
 #Amazon files.
@@ -25,7 +19,7 @@ import logging
 from botocore.exceptions import ClientError
 
 # ******** if you want to Change the Directory to your local  *******************
-os.chdir('')
+#os.chdir('')
 
 transcribe = boto3.client('transcribe')
 
@@ -113,66 +107,59 @@ def decode_transcript(data):
                             ]
                     except IndexError:
                         pass
-    df = pandas.DataFrame(decoded_data, columns=["time", "speaker", "comment"])
-    df["comment"] = df["comment"].str.lstrip()
-    return df
+    #df = pandas.DataFrame(decoded_data, columns=["time", "speaker", "comment"])
+    #df["comment"] = df["comment"].str.lstrip()
+    return decoded_data
 
 def write(file, **kwargs):
     data = load_json(file)
     df = decode_transcript(data)
-#     print(df) 
-    output_format = kwargs.get("format", "docx")
-    if output_format == "xlsx":
-        filename = kwargs.get("save_as", f"{data['jobName']}.xlsx")
-        df.to_excel(filename,encoding="utf-8")
+    print(df)
+    return df
 
 
 # ## Main function
 
 # In[27]:
 
-
-#playing the sound
-playsound('temp_audio.wav')
-
-#uploading file in S3 bucket
-upload_file(filename)
+def sound_to_text(filename):
+    filename = "temp_audio.wav"
+    #uploading file in S3 bucket
+    upload_file(filename)
 
 #***************** Accessing uploaded file in S3 bucket ******************
-s3_floc='https://s3.amazonaws.com/geekcon2022-zaphod/{}'.format(filename)
+    s3_floc='https://s3.amazonaws.com/geekcon2022-zaphod/{}'.format(filename)
 
 # *********************Job name has to be unique always ********************
-job_name = "GeekCon_0"
-job_uri = s3_floc
+    job_name = "GeekCon_0"
+    job_uri = s3_floc
 
-transcribe.start_transcription_job(
-    TranscriptionJobName=job_name,
-    Media={'MediaFileUri': job_uri},
-    MediaFormat='wav',
-    LanguageCode='en-US',
-    Settings={
-          'ShowSpeakerLabels': True,
-          'MaxSpeakerLabels': 2
-      }
+    try:
+        transcribe.delete_transcription_job(TranscriptionJobName=job_name)
+    except:
+        pass
+
+    transcribe.start_transcription_job(
+        TranscriptionJobName=job_name,
+        Media={'MediaFileUri': job_uri},
+        MediaFormat='wav',
+        LanguageCode='en-US',
+        Settings={
+            'ShowSpeakerLabels': True,
+            'MaxSpeakerLabels': 2
+        }
     )
-while True:
-    status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-    if status['TranscriptionJob']['TranscriptionJobStatus'] == 'COMPLETED':
-        response = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-        resurl=response['TranscriptionJob']['Transcript']['TranscriptFileUri']
-        #Downloading the Transcript
-        urllib.request.urlretrieve(resurl, '{}.json'.format(job_name))
-        #Storing it in Xlsx File.
-        write( '{}.json'.format(job_name),format="xlsx")
-        break
-    if status['TranscriptionJob']['TranscriptionJobStatus'] == 'FAILED':
-        print('Transcription Failed')
-        break
-    time.sleep(5)
-
-
-# In[ ]:
-
-
-# to delet existing Job
-transcribe.delete_transcription_job(TranscriptionJobName='GeekCon_0')
+    while True:
+        status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+        if status['TranscriptionJob']['TranscriptionJobStatus'] == 'COMPLETED':
+            response = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+            resurl=response['TranscriptionJob']['Transcript']['TranscriptFileUri']
+            #Downloading the Transcript
+            urllib.request.urlretrieve(resurl, '{}.json'.format(job_name))
+            #Storing it in Xlsx File.
+            text = write( '{}.json'.format(job_name),format="xlsx")
+            return text
+        if status['TranscriptionJob']['TranscriptionJobStatus'] == 'FAILED':
+            print('Transcription Failed')
+            break
+        time.sleep(5)
