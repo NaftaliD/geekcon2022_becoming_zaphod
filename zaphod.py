@@ -133,12 +133,14 @@ gPats = [
     [r'What (.*)',
     [ "Why do you ask?",
         "How would an answer to that help you? and could you even tell?",
-        "You think? %1, Oh my, what a wanker"]],
+        "You think? %1, Oh my, what a wanker",
+        "More like what do I care"]],
 
     [r'How (.*)',
     [ "you suppose? %1, oh wow.",
         "Perhaps you should answer your own question...",
         "What is it you're really asking?",
+        "because I am bloody awesome",
         "That's a great question, and I know exactly who can answer, the trash bin there in the corner"]],
 
     [r'Because (.*)',
@@ -292,10 +294,9 @@ gPats = [
 
     [r'(.*)',
     [ "Please tell me more.",
-        "Let's change focus a bit... Tell me about your family.",
-        "Can you elaborate on that?",
+        "Can you elaborate on that?, oh wait I dont care",
         "Why do you say that %1?",
-        "I see.",
+        "I see you are ugly.",
         "Very interesting.",
         "%1.",
         "I see.  And what does that tell you?",
@@ -307,6 +308,22 @@ gPats = [
         "Don't try to understand me, just be grateful that you felt the warmth of Zaphod Beeblebrox's aura on your wonderstruck face.",
         "What is this? Some sort of galactic hyperhearse?",
         "If I ever meet myself,' said Zaphod, 'I'll hit myself so hard I won't know what's hit me.",
+        "Thank you, for nothing",
+        "Are you scared by computers? Oh what a wanker",
+        "Go home, you are drunk",
+        "because I am bloody awesome",
+        "That's a great question, and I know exactly who can answer, the trash bin there in the corner",
+        "Also, there are aliens, just in front of you",
+        "Yes, you may kiss my boot",
+        "The galaxy is a dump, and I am the president",
+        "When you have a scalpol in hand, everything is a patient",
+        "Every place is the center of the universe, scientifically proven",
+        "Thanks for the fishes",
+        "Goodbye and fuck you very much",
+        "I dont like you and it is personal",
+        "I dont like to talk about myself. But I am the best",
+        "Dont you, forget about me",
+        "There's a starman waiting in the sky, he'd like to come and meet us but he thinks he'd blow our minds"
         ]]
     ]
 
