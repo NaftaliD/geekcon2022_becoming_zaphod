@@ -67,10 +67,9 @@ def play_text(text: str):
 
 SENTANCES = [ "Please tell me more.",
         "Can you elaborate on that?, oh wait I dont care",
-        "Why do you say that %1?",
+        "Why do you say that?",
         "I see you are ugly.",
         "Very interesting.",
-        "%1.",
         "I see.  And what does that tell you?",
         "How does that make you feel?",
         "How do you feel when you say that?",
