@@ -104,8 +104,8 @@ def main():
             print("no image")
             continue
 
-        if (datetime.now() - last_image_time).microseconds / 1e6 > image_every:
-            cv2.imwrite(os.path.join(os.path.dirname(__file__), f"{image_id:005d}.jpg"), frame)
+        if (datetime.now() - last_image_time).seconds > image_every:
+            cv2.imwrite(os.path.join(os.path.dirname(__file__), f"{datetime.now().isoformat().replace(':', '')}.jpg"), frame)
             image_id += 1
             last_image_time = datetime.now()
         frame_id += 1
