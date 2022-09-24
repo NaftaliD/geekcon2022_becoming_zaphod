@@ -77,6 +77,7 @@ if __name__ == '__main__':
         "red_to_black_prob": 0.8,
         "mark_pupil_mode": None,
         "servo_pin": "GPIO04",
+        "image_every_sec": 10,
     }
     with open(CONFIG_PATH, 'w') as fid:
         json.dump(config_, fid, indent=4)

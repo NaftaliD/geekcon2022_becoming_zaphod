@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 
 import cv2
@@ -90,6 +91,9 @@ def main():
     eye_controller = EyeController()
     frame_id = 0
     attributes_dict = {}
+    last_image_time = datetime.now()
+    image_id = 0
+    image_every=15
     while True:
         # time.sleep(0.1)
         start = datetime.now()
@@ -100,11 +104,10 @@ def main():
             print("no image")
             continue
 
-        save_elapsed = timedelta(0)
-        # if frame_id % 100 == 0:
-        #     start = datetime.now()
-        #     cv2.imwrite(os.path.join(os.path.dirname(__file__), f"{frame_id:05d}.jpg"), frame)
-        #     save_elapsed = datetime.now() - start
+        if (datetime.now() - last_image_time).microseconds / 1e6 > image_every:
+            cv2.imwrite(os.path.join(os.path.dirname(__file__), f"{image_id:005d}.jpg"), frame)
+            image_id += 1
+            last_image_time = datetime.now()
         frame_id += 1
 
         start = datetime.now()
