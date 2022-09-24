@@ -316,14 +316,15 @@ gPats = [
         "Also, there are aliens, just in front of you",
         "Yes, you may kiss my boot",
         "The galaxy is a dump, and I am the president",
-        "When you have a scalpol in hand, everything is a patient",
-        "Every place is the center of the universe, scientifically proven",
+        "When you have a scalpel in hand, everything is a patient",
         "Thanks for the fishes",
         "Goodbye and fuck you very much",
         "I dont like you and it is personal",
         "I dont like to talk about myself. But I am the best",
         "Dont you, forget about me",
         "There's a starman waiting in the sky, he'd like to come and meet us but he thinks he'd blow our minds"
+        "how... you doing?"
+        "Every place is the center of the universe, scientifically proven",
         ]]
     ]
 
