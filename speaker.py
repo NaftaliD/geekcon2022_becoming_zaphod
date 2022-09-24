@@ -1,19 +1,14 @@
 """Getting Started Example for Python 2.7+/3.3+"""
-import numpy as np
-from boto3 import Session
-from botocore.exceptions import BotoCoreError, ClientError
-from contextlib import closing
 import os
-import sys
 import time
-import subprocess
+from contextlib import closing
 from tempfile import gettempdir
 
+import numpy as np
 import vlc
-
+from boto3 import Session
+from botocore.exceptions import BotoCoreError, ClientError
 from gpiozero import Servo
-
-from zaphod import gPats
 
 
 def play_text(text: str):
@@ -70,12 +65,46 @@ def play_text(text: str):
     p.release()
 
 
+SENTANCES = [ "Please tell me more.",
+        "Can you elaborate on that?, oh wait I dont care",
+        "Why do you say that %1?",
+        "I see you are ugly.",
+        "Very interesting.",
+        "%1.",
+        "I see.  And what does that tell you?",
+        "How does that make you feel?",
+        "How do you feel when you say that?",
+        "Can please you go and search for me in the other room?",
+        "Ow! My brains!",
+        "If there's anything more important than my ego around, I want it caught and shot now.",
+        "Don't try to understand me, just be grateful that you felt the warmth of Zaphod Beeblebrox's aura on your wonderstruck face.",
+        "What is this? Some sort of galactic hyperhearse?",
+        "If I ever meet myself,' said Zaphod, 'I'll hit myself so hard I won't know what's hit me.",
+        "Thank you, for nothing",
+        "Are you scared by computers? Oh what a wanker",
+        "Go home, you are drunk",
+        "because I am bloody awesome",
+        "That's a great question, and I know exactly who can answer, the trash bin there in the corner",
+        "Also, there are aliens, just in front of you",
+        "Yes, you may kiss my boot",
+        "The galaxy is a dump, and I am the president",
+        "When you have a scalpel in hand, everything is a patient",
+        "Thanks for the fishes",
+        "Goodbye and fuck you very much",
+        "I dont like you and it is personal",
+        "I dont like to talk about myself. But I am the best",
+        "Dont you, forget about me",
+        "There's a starman waiting in the sky, he'd like to come and meet us but he thinks he'd blow our minds"
+        "how... you doing?"
+        "Every place is the center of the universe, scientifically proven",
+        ]
+
+
 if __name__ == '__main__':
     play_text("Hi, I'm Zaphod, and fuck you too")
-    sentances = gPats[-1][1]
-    n_sentances = len(sentances)
+    n_sentances = len(SENTANCES)
     while True:
         time.sleep(5 + np.random.random()*5)
-        phrase = sentances[int(np.random.random() * n_sentances)]
+        phrase = SENTANCES[int(np.random.random() * n_sentances)]
         print(phrase)
         play_text(phrase)
